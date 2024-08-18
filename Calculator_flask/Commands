@@ -1,0 +1,12 @@
+Create Cluster command through EKSCLI
+eksctl create cluster --name yash-cluster-1 --region ap-northeast-2 --nodegroup-name standard-workers --node-type t4g.micro --nodes 1 --nodes-min 1 --nodes-max 4 --managed
+eksctl create cluster --name yash-cluster-1 --region ap-northeast-2 --nodegroup-name standard-workers --node-type t3.micro --nodes 2 --nodes-min 2 --nodes-max 4 --managed
+
+Create Cluster command through AWS CLI
+make sure subnets and security group are of same VPC.
+aws eks create-cluster --name yash-cluster --region ap-northeast-3 --role-arn arn:aws:iam::975050024946:role/test --resources-vpc-config subnetIds=subnet-0b4e5fded37cec9d4,subnet-0e088f7ba82a1f8ed,subnet-08c0110b4bc1ee771,securityGroupIds=sg-090b87cd944741c01 --tags Environment=Production,Team=DevOps
+
+create node group command
+aws eks create-nodegroup --cluster-name yash-cluster --nodegroup-name yash-node-group --node-role arn:aws:iam::975050024946:role/test --subnets subnet-0b4e5fded37cec9d4,subnet-0e088f7ba82a1f8ed,subnet-08c0110b4bc1ee771 --scaling-config minSize=2,maxSize=5,desiredSize=3 --instance-types t3.medium --ami-type AL2_x86_64 --tags Environment=Production,Team=DevOps
+
+(note: Srikar had given admin access to everyone as there is no EKS full access policy.)
